@@ -1,0 +1,15 @@
+rules_version = '2';
+
+// Las imágenes se suben a través del backend (POST /api/admin/uploads) con el Admin SDK.
+// El navegador solo necesita leerlas.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /images/{file} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /{path=**} {
+      allow read, write: if false;
+    }
+  }
+}
