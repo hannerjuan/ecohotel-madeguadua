@@ -9,7 +9,8 @@ import { useSettings } from '../context/SettingsContext';
 import { useAsync } from '../hooks/useAsync';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { api } from '../lib/api';
-import { fallbackImage, formatCOP, formatDay, whatsappLink } from '../lib/format';
+import { formatCOP, formatDay, stockImage, whatsappLink } from '../lib/format';
+import { heroImages as stockHero, STOCK, stockUrl } from '../../shared/images';
 
 // Fix Leaflet's default marker icon issue in React
 // @ts-ignore
@@ -26,11 +27,8 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-// Fotos propias del río; se usan si el administrador aún no configuró imágenes de portada.
-const DEFAULT_HERO = [
-  'https://images.unsplash.com/photo-1541410965313-d53b3c16ef17?auto=format&fit=crop&w=1920&q=80',
-  'https://images.unsplash.com/photo-1544253915-0810168cb729?auto=format&fit=crop&w=1920&q=80',
-];
+// Fotos de Unsplash mientras el administrador no configure imágenes de portada.
+const DEFAULT_HERO = stockHero();
 
 export default function LandingPage() {
   usePageTitle();
@@ -226,7 +224,7 @@ export default function LandingPage() {
                   <div className="card overflow-hidden h-full flex flex-col transition-all duration-500 hover:shadow-2xl">
                     <div className="h-80 overflow-hidden">
                       <img 
-                        src={cabin.imageUrl || fallbackImage(cabin.id, 800, 1000)}
+                        src={cabin.imageUrl || stockImage('cabins', cabin.id, 1000)}
                         loading="lazy" 
                         alt={cabin.name}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -299,13 +297,13 @@ export default function LandingPage() {
               className="relative h-[600px] grid grid-cols-2 gap-4"
             >
               <img 
-                src="https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?auto=format&fit=crop&q=80" 
+                src={stockUrl(STOCK.food[0], 900)}
                 alt="Platillo típico del río" 
                 className="w-full h-full object-cover rounded-3xl mt-12 shadow-xl"
                 referrerPolicy="no-referrer"
               />
               <img 
-                src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80" 
+                src={stockUrl(STOCK.food[1], 900)}
                 alt="Bebida de Cacao o Café" 
                 className="w-full h-full object-cover rounded-3xl -mt-4 shadow-xl"
                 referrerPolicy="no-referrer"
@@ -396,7 +394,7 @@ export default function LandingPage() {
               >
                 <Link to="/activities" className="block relative h-[380px] md:h-[450px] rounded-[32px] overflow-hidden shadow-lg">
                   <img 
-                    src={activity.imageUrl || fallbackImage(activity.id, 600, 900)}
+                    src={activity.imageUrl || stockImage('activities', activity.id, 900)}
                     loading="lazy" 
                     alt={activity.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"

@@ -26,5 +26,4 @@ export const shortCode = (id: string) => id.slice(0, 8).toUpperCase();
 export const whatsappLink = (number: string, text?: string) =>
   `https://wa.me/${number.replace(/\D/g, '')}${text ? `?text=${encodeURIComponent(text)}` : ''}`;
 
-/** Imagen de respaldo cuando una cabaña o actividad aún no tiene foto. */
-export const fallbackImage = (seed: string, w = 800, h = 600) => `https://picsum.photos/seed/${encodeURIComponent(seed)}/${w}/${h}`;
+export { stockImage } from '../../shared/images';

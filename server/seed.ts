@@ -1,6 +1,7 @@
 import type { Repository } from './repo/types';
+import { STOCK, stockUrl } from '../shared/images';
 
-const img = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1200&q=80`;
+const img = (id: string) => stockUrl(id);
 
 /** Datos de ejemplo para el modo en memoria (desarrollo local sin Firebase). */
 export async function seedDemoData(repo: Repository): Promise<void> {
@@ -13,8 +14,8 @@ export async function seedDemoData(repo: Repository): Promise<void> {
     price: 280000,
     capacity: 2,
     amenities: ['Wifi', 'Café', 'Baño privado', 'Hamaca', 'Vista al río'],
-    imageUrl: img('photo-1587061949409-02df41d5e562'),
-    galleryUrls: [img('photo-1510798831971-661eb04b3739'), img('photo-1449158743715-0a90ebb6d2d8')],
+    imageUrl: img(STOCK.cabins[0]),
+    galleryUrls: [img(STOCK.cabins[1]), img(STOCK.cabins[3])],
   });
   await repo.cabins.create({
     name: 'Cabaña La Miel',
@@ -22,7 +23,7 @@ export async function seedDemoData(repo: Repository): Promise<void> {
     price: 450000,
     capacity: 5,
     amenities: ['Wifi', 'Cocina', 'Terraza', 'Fogata', 'Aire Acondicionado'],
-    imageUrl: img('photo-1542718610-a1d656d1884c'),
+    imageUrl: img(STOCK.cabins[2]),
     galleryUrls: [],
   });
   await repo.activities.create({
@@ -32,7 +33,7 @@ export async function seedDemoData(repo: Repository): Promise<void> {
     cost: 60000,
     duration: '3 horas',
     difficulty: 'Fácil',
-    imageUrl: img('photo-1544551763-46a013bb70d5'),
+    imageUrl: img(STOCK.hero[1]),
     galleryUrls: [],
     includes: ['Guía local', 'Chaleco salvavidas', 'Hidratación'],
   });
@@ -43,7 +44,7 @@ export async function seedDemoData(repo: Repository): Promise<void> {
     cost: 0,
     duration: '4 horas',
     difficulty: 'Moderada',
-    imageUrl: img('photo-1432405972618-c60b0225b8f9'),
+    imageUrl: img(STOCK.activities[0]),
     galleryUrls: [],
     includes: ['Guía', 'Refrigerio'],
   });

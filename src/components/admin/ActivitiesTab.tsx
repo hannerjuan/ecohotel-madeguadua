@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useToast } from '../../context/ToastContext';
 import { useAsync } from '../../hooks/useAsync';
 import { api, type ActivityInput } from '../../lib/api';
-import { fallbackImage, formatCOP } from '../../lib/format';
+import { formatCOP, stockImage } from '../../lib/format';
 import type { Activity, Difficulty } from '../../types';
 import { ErrorState, PageLoader } from '../ui';
 import { ConfirmDelete, Field, ImagesField, inputClass, TagsInput } from './common';
@@ -118,7 +118,7 @@ export default function ActivitiesTab({ onChanged }: { onChanged: () => void }) 
       <div className="grid grid-cols-1 gap-3">
         {activities?.map((activity) => (
           <div key={activity.id} className="card p-4 flex items-center gap-4">
-            <img src={activity.imageUrl || fallbackImage(activity.id, 100, 100)} alt="" className="w-16 h-16 rounded-xl object-cover" referrerPolicy="no-referrer" />
+            <img src={activity.imageUrl || stockImage('activities', activity.id, 200)} alt="" className="w-16 h-16 rounded-xl object-cover" referrerPolicy="no-referrer" />
             <div className="flex-grow min-w-0">
               <h3 className="serif text-lg text-olive truncate">{activity.name}</h3>
               <div className="flex flex-wrap gap-3 text-xs text-ink/50">

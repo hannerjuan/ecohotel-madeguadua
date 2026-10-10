@@ -4,7 +4,7 @@ import { useSettings } from '../context/SettingsContext';
 import { useAsync } from '../hooks/useAsync';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { api } from '../lib/api';
-import { fallbackImage, formatCOP, whatsappLink } from '../lib/format';
+import { formatCOP, stockImage, whatsappLink } from '../lib/format';
 import type { Activity } from '../types';
 import { EmptyState, ErrorState, Lightbox, PageLoader } from './ui';
 
@@ -14,7 +14,7 @@ export default function ActivityList() {
   const { data: activities, error, loading, reload } = useAsync(() => api.activities(), []);
   const [gallery, setGallery] = useState<{ activity: Activity; index: number } | null>(null);
 
-  const imagesOf = (a: Activity) => [a.imageUrl || fallbackImage(a.id), ...a.galleryUrls];
+  const imagesOf = (a: Activity) => [a.imageUrl || stockImage('activities', a.id, 1600), ...a.galleryUrls];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -38,7 +38,7 @@ export default function ActivityList() {
               aria-label={`Ver fotos de ${activity.name}`}
             >
               <img
-                src={activity.imageUrl || fallbackImage(activity.id)}
+                src={activity.imageUrl || stockImage('activities', activity.id, 800)}
                 alt={activity.name}
                 loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

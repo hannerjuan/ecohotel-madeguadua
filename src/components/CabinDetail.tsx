@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useAsync } from '../hooks/useAsync';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { api, ApiError } from '../lib/api';
-import { fallbackImage, formatCOP } from '../lib/format';
+import { formatCOP, stockImage } from '../lib/format';
 import BookingForm from './cabin/BookingForm';
 import ReviewsSection from './cabin/ReviewsSection';
 import { amenityIcon } from './CabinCard';
@@ -31,7 +31,7 @@ export default function CabinDetail() {
   }
 
   const c = cabin.data!;
-  const images = [c.imageUrl || fallbackImage(c.id, 1200, 1600), ...c.galleryUrls];
+  const images = [c.imageUrl || stockImage('cabins', c.id, 1600), ...c.galleryUrls];
   const average = reviews.data?.summary.average ?? null;
 
   const Tile = ({ i, className }: { i: number; className: string }) => (

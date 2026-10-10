@@ -1,3 +1,4 @@
+import { heroImages } from '../shared/images';
 import type { Settings } from '../shared/types';
 
 // Valores iniciales. El administrador los cambia desde el panel (pestaña Ajustes);
@@ -10,10 +11,7 @@ export const DEFAULT_SETTINGS: Settings = {
   howToGetThere: 'A unas 5 horas de Bogotá o Medellín por carretera.',
   mapLat: 5.5786,
   mapLng: -74.8943,
-  heroImages: [
-    'https://images.unsplash.com/photo-1541410965313-d53b3c16ef17?auto=format&fit=crop&w=1920&q=80',
-    'https://images.unsplash.com/photo-1544253915-0810168cb729?auto=format&fit=crop&w=1920&q=80',
-  ],
+  heroImages: heroImages(),
   checkInTime: '3:00 p. m.',
   checkOutTime: '12:00 m.',
   cancellationPolicy: [

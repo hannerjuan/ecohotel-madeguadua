@@ -1,7 +1,7 @@
 import { Check, Coffee, Mountain, Users, Wifi, Wind } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { fallbackImage, formatCOP } from '../lib/format';
+import { formatCOP, stockImage } from '../lib/format';
 import type { Cabin } from '../types';
 
 export const amenityIcons: Record<string, ReactNode> = {
@@ -19,7 +19,7 @@ export default function CabinCard({ cabin }: { cabin: Cabin }) {
       <article className="card overflow-hidden h-full flex flex-col transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-2xl">
         <div className="relative h-64 overflow-hidden">
           <img
-            src={cabin.imageUrl || fallbackImage(cabin.id)}
+            src={cabin.imageUrl || stockImage('cabins', cabin.id, 800)}
             alt={cabin.name}
             loading="lazy"
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useToast } from '../../context/ToastContext';
 import { useAsync } from '../../hooks/useAsync';
 import { api, type CabinInput } from '../../lib/api';
-import { fallbackImage, formatCOP } from '../../lib/format';
+import { formatCOP, stockImage } from '../../lib/format';
 import type { Cabin } from '../../types';
 import { ErrorState, PageLoader } from '../ui';
 import { ConfirmDelete, Field, ImagesField, inputClass, TagsInput } from './common';
@@ -99,7 +99,7 @@ export default function CabinsTab({ onChanged }: { onChanged: () => void }) {
       <div className="grid grid-cols-1 gap-3">
         {cabins?.map((cabin) => (
           <div key={cabin.id} className="card p-4 flex items-center gap-4">
-            <img src={cabin.imageUrl || fallbackImage(cabin.id, 100, 100)} alt="" className="w-16 h-16 rounded-xl object-cover" referrerPolicy="no-referrer" />
+            <img src={cabin.imageUrl || stockImage('cabins', cabin.id, 200)} alt="" className="w-16 h-16 rounded-xl object-cover" referrerPolicy="no-referrer" />
             <div className="flex-grow min-w-0">
               <h3 className="serif text-lg text-olive truncate">{cabin.name}</h3>
               <p className="text-xs text-ink/50">
