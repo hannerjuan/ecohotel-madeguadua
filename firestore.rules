@@ -1,0 +1,109 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: cabins
+    // Document ID: auto-generated
+    // Fields:
+    //   - name: string (required)
+    //   - description: string (required)
+    //   - price: number (required)
+    //   - amenities: list (optional)
+    //   - imageUrl: string (optional)
+    //   - capacity: int (required)
+    //
+    // Collection: reservations
+    // Document ID: auto-generated
+    // Fields:
+    //   - cabinId: string (required)
+    //   - cabinName: string (required)
+    //   - guestName: string (required)
+    //   - checkIn: string (required, ISO 8601)
+    //   - checkOut: string (required, ISO 8601)
+    //   - whatsappNumber: string (required)
+    //   - status: string (required, enum: pending, confirmed, cancelled)
+    //   - createdAt: timestamp (required)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && 
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+         (request.auth.token.email == "ecohotelmadeguadua@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    function isValidCabin(data) {
+      return data.keys().hasAll(['name', 'description', 'price', 'capacity']) &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
+             data.description is string && data.description.size() > 0 && data.description.size() < 2000 &&
+             data.price is number && data.price > 0 &&
+             data.capacity is int && data.capacity > 0 &&
+             (!('amenities' in data) || data.amenities is list) &&
+             (!('imageUrl' in data) || (data.imageUrl is string && data.imageUrl.size() < 1000));
+    }
+
+    function isValidReservation(data) {
+      return data.keys().hasAll(['cabinId', 'cabinName', 'guestName', 'checkIn', 'checkOut', 'whatsappNumber', 'status', 'createdAt']) &&
+             data.cabinId is string &&
+             data.cabinName is string &&
+             data.guestName is string && data.guestName.size() > 0 && data.guestName.size() < 100 &&
+             data.checkIn is string &&
+             data.checkOut is string &&
+             data.whatsappNumber is string && data.whatsappNumber.size() > 5 && data.whatsappNumber.size() < 20 &&
+             data.status in ['pending', 'confirmed', 'cancelled'] &&
+             data.createdAt is timestamp;
+    }
+
+    function isValidReview(data) {
+      return data.keys().hasAll(['cabinId', 'guestName', 'rating', 'comment', 'createdAt']) &&
+             data.cabinId is string &&
+             data.guestName is string && data.guestName.size() > 0 && data.guestName.size() < 100 &&
+             data.rating is number && data.rating >= 1 && data.rating <= 5 &&
+             data.comment is string && data.comment.size() > 0 && data.comment.size() < 2000 &&
+             data.createdAt is timestamp;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    match /cabins/{cabinId} {
+      allow read: if true; // Publicly viewable
+      allow write: if isAdmin();
+    }
+
+    match /activities/{activityId} {
+      allow read: if true; // Publicly viewable
+      allow write: if isAdmin();
+    }
+
+    match /reservations/{reservationId} {
+      allow read: if true; // In a production app, we would split PII into a private collection, but for this demo to allow checking availability, we allow read
+      allow create: if isValidReservation(request.resource.data);
+      allow update, delete: if isAdmin();
+    }
+
+    match /reviews/{reviewId} {
+      allow read: if true; // Publicly viewable
+      allow create: if isValidReview(request.resource.data);
+      allow update, delete: if isAdmin();
+    }
+  }
+}

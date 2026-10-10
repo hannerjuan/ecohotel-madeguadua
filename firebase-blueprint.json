@@ -1,0 +1,81 @@
+{
+  "entities": {
+    "Cabin": {
+      "title": "Cabin",
+      "description": "A cabin in the eco-hotel.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the cabin" },
+        "description": { "type": "string", "description": "Detailed description" },
+        "price": { "type": "number", "description": "Price per night" },
+        "amenities": { "type": "array", "items": { "type": "string" }, "description": "List of amenities" },
+        "imageUrl": { "type": "string", "description": "URL of the cabin image" },
+        "capacity": { "type": "integer", "description": "Maximum occupancy" }
+      },
+      "required": ["name", "description", "price", "capacity"]
+    },
+    "Activity": {
+      "title": "Activity",
+      "description": "An activity or tour offered by the hotel.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the activity" },
+        "description": { "type": "string", "description": "Short description" },
+        "details": { "type": "string", "description": "Full details of what it's about" },
+        "cost": { "type": "number", "description": "Additional cost (0 if included)" },
+        "duration": { "type": "string", "description": "Estimated duration (e.g., 2 hours)" },
+        "difficulty": { "type": "string", "enum": ["Fácil", "Moderada", "Difícil"], "description": "Difficulty level" },
+        "imageUrl": { "type": "string", "description": "URL of the activity image" },
+        "includes": { "type": "array", "items": { "type": "string" }, "description": "What's included" }
+      },
+      "required": ["name", "description", "details", "cost"]
+    },
+    "Reservation": {
+      "title": "Reservation",
+      "description": "A booking for a cabin.",
+      "type": "object",
+      "properties": {
+        "cabinId": { "type": "string", "description": "ID of the cabin" },
+        "cabinName": { "type": "string", "description": "Name of the cabin at time of booking" },
+        "guestName": { "type": "string", "description": "Name of the guest" },
+        "checkIn": { "type": "string", "format": "date", "description": "Check-in date" },
+        "checkOut": { "type": "string", "format": "date", "description": "Check-out date" },
+        "whatsappNumber": { "type": "string", "description": "Guest's WhatsApp number" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "cancelled"], "description": "Booking status" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the reservation was made" }
+      },
+      "required": ["cabinId", "guestName", "checkIn", "checkOut", "whatsappNumber"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "A guest review for a cabin.",
+      "type": "object",
+      "properties": {
+        "cabinId": { "type": "string", "description": "ID of the cabin" },
+        "guestName": { "type": "string", "description": "Name of the guest" },
+        "rating": { "type": "number", "description": "Rating out of 5" },
+        "comment": { "type": "string", "description": "Guest comment" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the review was made" }
+      },
+      "required": ["cabinId", "guestName", "rating", "comment", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/cabins/{cabinId}": {
+      "schema": "Cabin",
+      "description": "Collection of cabins available in the eco-hotel."
+    },
+    "/activities/{activityId}": {
+      "schema": "Activity",
+      "description": "Collection of activities and tours offered."
+    },
+    "/reservations/{reservationId}": {
+      "schema": "Reservation",
+      "description": "Collection of bookings made by users."
+    },
+    "/reviews/{reviewId}": {
+      "schema": "Review",
+      "description": "Collection of guest reviews."
+    }
+  }
+}
