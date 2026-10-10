@@ -8,6 +8,9 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { motion } from 'framer-motion';
+import { Button } from './ui/button';
+import { Card } from './ui/card';
+import { Badge } from './ui/badge';
 
 // Fix Leaflet's default marker icon issue in React
 // @ts-ignore
@@ -104,12 +107,12 @@ export default function LandingPage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2 }}
             >
-              <Link to="/cabins" className="olive-button py-4 px-10 text-lg w-full sm:w-auto shadow-2xl hover:-translate-y-1 transition-transform">
-                DESCUBRE LAS CABAÑAS
-              </Link>
-              <a href="#about" className="px-8 py-4 text-white border border-white/50 rounded-full backdrop-blur-md hover:bg-white/20 transition-all text-sm uppercase tracking-widest font-medium w-full sm:w-auto hover:-translate-y-1">
-                Saber más
-              </a>
+              <Button asChild size="lg" className="w-full sm:w-auto shadow-2xl hover:-translate-y-1 text-base uppercase tracking-widest">
+                <Link to="/cabins">Descubre las Cabañas</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="w-full sm:w-auto hover:-translate-y-1 text-sm uppercase tracking-widest">
+                <a href="#about">Saber más</a>
+              </Button>
             </motion.div>
           </motion.div>
         </div>
@@ -174,7 +177,7 @@ export default function LandingPage() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <span className="text-olive font-bold tracking-[0.2em] text-sm uppercase mb-4 block">Descubre Norcasia</span>
+              <Badge variant="subtle" className="mb-4 tracking-[0.2em] uppercase">Descubre Norcasia</Badge>
               <h2 className="serif text-5xl md:text-6xl text-olive mb-8 leading-tight">EcoHotel Madeguadua en el corazón de Caldas</h2>
               <p className="text-ink/70 text-lg leading-relaxed mb-8">
                 Ubicados en Norcasia, Caldas, somos el portal a una de las maravillas naturales más impresionantes de Colombia: el Río La Miel. 
@@ -212,12 +215,14 @@ export default function LandingPage() {
             className="flex justify-between items-end mb-16"
           >
             <div>
-              <span className="text-olive font-bold tracking-[0.2em] text-sm uppercase mb-4 block">Tu Estancia</span>
+              <Badge variant="subtle" className="mb-4 tracking-[0.2em] uppercase">Tu Estancia</Badge>
               <h2 className="serif text-5xl text-olive">Cabañas de Ensueño</h2>
             </div>
-            <Link to="/cabins" className="text-olive font-bold flex items-center gap-2 hover:underline">
-              Ver todas <ArrowRight size={20} />
-            </Link>
+            <Button asChild variant="link">
+              <Link to="/cabins" className="flex items-center gap-2">
+                Ver todas <ArrowRight size={20} />
+              </Link>
+            </Button>
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -230,10 +235,10 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: index * 0.15 }}
               >
                 <Link to={`/cabin/${cabin.id}`} className="group">
-                  <div className="card overflow-hidden h-full flex flex-col transition-all duration-500 hover:shadow-2xl">
+                  <Card className="overflow-hidden h-full flex flex-col transition-all duration-500 hover:shadow-2xl">
                     <div className="h-80 overflow-hidden">
-                      <img 
-                        src={cabin.imageUrl || `https://picsum.photos/seed/${cabin.id}/800/1000`} 
+                      <img
+                        src={cabin.imageUrl || `https://picsum.photos/seed/${cabin.id}/800/1000`}
                         alt={cabin.name}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         referrerPolicy="no-referrer"
@@ -246,7 +251,7 @@ export default function LandingPage() {
                         <span className="font-bold text-olive">${cabin.price.toLocaleString()} / noche</span>
                       </div>
                     </div>
-                  </div>
+                  </Card>
                 </Link>
               </motion.div>
             ))}
@@ -264,7 +269,7 @@ export default function LandingPage() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <span className="text-olive font-bold tracking-[0.2em] text-sm uppercase mb-4 block">Del Campo a la Mesa</span>
+              <Badge variant="subtle" className="mb-4 tracking-[0.2em] uppercase">Del Campo a la Mesa</Badge>
               <h2 className="serif text-5xl md:text-6xl text-olive mb-6 leading-tight">Gastronomía Sostenible</h2>
               <p className="text-ink/70 text-lg leading-relaxed mb-8">
                 Nuestro restaurante fusiona la tradición culinaria colombiana con técnicas modernas, utilizando ingredientes frescos cultivados en nuestra propia huerta orgánica o por agricultores locales de Norcasia.
@@ -287,7 +292,7 @@ export default function LandingPage() {
                 </div>
               </div>
               
-              <button className="mt-10 olive-button px-8 py-4">Ver Menú Completo</button>
+              <Button size="lg" className="mt-10">Ver Menú Completo</Button>
             </motion.div>
 
             <motion.div 
@@ -339,7 +344,7 @@ export default function LandingPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <span className="text-cream font-bold tracking-[0.2em] text-sm uppercase mb-4 block">Testimonios</span>
+            <Badge variant="light" className="mb-4 tracking-[0.2em] uppercase">Testimonios</Badge>
             <h2 className="serif text-5xl text-white">Memorias de nuestros Huéspedes</h2>
           </motion.div>
 
@@ -398,7 +403,7 @@ export default function LandingPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <span className="text-olive font-bold tracking-[0.2em] text-sm uppercase mb-4 block">Experiencias</span>
+            <Badge variant="subtle" className="mb-4 tracking-[0.2em] uppercase">Experiencias</Badge>
             <h2 className="serif text-5xl text-olive">Actividades y Aventuras</h2>
           </motion.div>
 
@@ -462,13 +467,15 @@ export default function LandingPage() {
                   </div>
                 </div>
               </div>
-              <a 
-                href="https://maps.google.com/?q=Norcasia+Caldas+Rio+La+Miel" 
-                target="_blank" 
-                className="mt-12 inline-flex items-center gap-2 font-bold text-olive hover:underline"
-              >
-                Abrir en Google Maps <ArrowRight size={20} />
-              </a>
+              <Button asChild variant="link" className="mt-12">
+                <a
+                  href="https://maps.google.com/?q=Norcasia+Caldas+Rio+La+Miel"
+                  target="_blank"
+                  className="inline-flex items-center gap-2"
+                >
+                  Abrir en Google Maps <ArrowRight size={20} />
+                </a>
+              </Button>
             </div>
             
             <div className="lg:col-span-2 h-[500px] rounded-[40px] overflow-hidden shadow-2xl border-8 border-white relative z-0">
