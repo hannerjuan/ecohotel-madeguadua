@@ -8,6 +8,11 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { Button } from './ui/button';
+import { Card } from './ui/card';
+import { Badge } from './ui/badge';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
 
 registerLocale('es', es);
 
@@ -273,12 +278,9 @@ export default function CabinDetail() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <button 
-        onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-olive hover:underline mb-8 font-medium"
-      >
+      <Button variant="link" onClick={() => navigate(-1)} className="mb-8 flex items-center gap-2">
         <ChevronLeft size={20} /> Volver a la lista
-      </button>
+      </Button>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
         <div>
@@ -401,10 +403,10 @@ export default function CabinDetail() {
                 };
 
                 return (
-                  <span key={idx} className="bg-white border border-olive/10 px-4 py-2 rounded-2xl text-sm text-ink/70 flex items-center gap-2 shadow-sm">
+                  <Badge key={idx} variant="outline" className="px-4 py-2 text-sm shadow-sm">
                     {getIcon(amenity)}
                     {amenity}
-                  </span>
+                  </Badge>
                 )
               })}
             </div>
@@ -412,7 +414,7 @@ export default function CabinDetail() {
         </div>
 
         <div className="lg:sticky lg:top-32 h-fit">
-          <div className="card p-10">
+          <Card className="p-10">
             {success ? (
               <div className="text-center py-10">
                 <div className="flex justify-center mb-6">
@@ -451,9 +453,10 @@ export default function CabinDetail() {
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {recommendedDates.map((rec, idx) => (
-                          <button
+                          <Button
                             key={idx}
                             type="button"
+                            size="sm"
                             onClick={() => {
                               const checkIn = format(rec.start, 'yyyy-MM-dd');
                               let checkOut = '';
@@ -471,13 +474,13 @@ export default function CabinDetail() {
                               setBookingData({ ...bookingData, checkIn, checkOut });
                               setDateError('');
                             }}
-                            className="text-xs bg-white border border-olive/20 text-olive px-3 py-2 rounded-xl hover:bg-olive hover:text-white transition-colors text-left font-medium"
+                            className="rounded-xl border border-olive/20 bg-white text-olive hover:bg-olive hover:text-white text-left font-medium normal-case"
                           >
-                            {rec.end 
+                            {rec.end
                               ? `Del ${format(rec.start, "d MMM", { locale: es })} al ${format(rec.end, "d MMM", { locale: es })}`
                               : `A partir del ${format(rec.start, "d MMM", { locale: es })}`
                             }
-                          </button>
+                          </Button>
                         ))}
                       </div>
                     </div>
@@ -487,10 +490,9 @@ export default function CabinDetail() {
                 <form onSubmit={handleBooking} className="space-y-6">
                   <div>
                     <label className="block text-sm font-medium text-ink/60 mb-2">Nombre Completo</label>
-                    <input 
+                    <Input
                       required
                       type="text"
-                      className="w-full bg-cream border-none rounded-2xl p-4 focus:ring-2 focus:ring-olive/20 outline-none"
                       placeholder="Tu nombre"
                       value={bookingData.guestName}
                       onChange={e => setBookingData({...bookingData, guestName: e.target.value})}
@@ -559,10 +561,9 @@ export default function CabinDetail() {
 
                   <div>
                     <label className="block text-sm font-medium text-ink/60 mb-2">WhatsApp de contacto</label>
-                    <input 
+                    <Input
                       required
                       type="tel"
-                      className="w-full bg-cream border-none rounded-2xl p-4 focus:ring-2 focus:ring-olive/20 outline-none"
                       placeholder="+57 300 000 0000"
                       value={bookingData.whatsappNumber}
                       onChange={e => setBookingData({...bookingData, whatsappNumber: e.target.value})}
@@ -583,24 +584,25 @@ export default function CabinDetail() {
                     </label>
                   </div>
 
-                  <button 
+                  <Button
                     disabled={isSubmitting || isAvailable === false}
-                    type="submit" 
-                    className="w-full olive-button py-5 text-lg flex items-center justify-center gap-3 disabled:opacity-50"
+                    type="submit"
+                    size="lg"
+                    className="w-full text-lg"
                   >
                     {isSubmitting ? 'Procesando...' : (
                       <>
                         <Send size={20} /> Reservar vía WhatsApp
                       </>
                     )}
-                  </button>
+                  </Button>
                   <p className="text-[10px] text-center text-ink/40 uppercase tracking-widest">
                     Al hacer clic, serás redirigido a WhatsApp
                   </p>
                 </form>
               </>
             )}
-          </div>
+          </Card>
         </div>
       </div>
 
@@ -640,35 +642,34 @@ export default function CabinDetail() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <input 
+                <Input
                   required
                   type="text"
                   placeholder="Tu Nombre"
-                  className="w-full bg-white border border-olive/10 rounded-2xl p-4 focus:ring-2 focus:ring-olive/20 outline-none transition-all"
+                  className="bg-white border border-olive/10"
                   value={reviewForm.guestName}
                   onChange={(e) => setReviewForm({ ...reviewForm, guestName: e.target.value })}
                 />
               </div>
             </div>
-            
+
             <div>
-              <textarea 
+              <Textarea
                 required
                 placeholder="¿Cómo fue tu experiencia en la cabaña?"
                 rows={4}
-                className="w-full bg-white border border-olive/10 rounded-2xl p-4 focus:ring-2 focus:ring-olive/20 outline-none resize-none transition-all"
                 value={reviewForm.comment}
                 onChange={(e) => setReviewForm({ ...reviewForm, comment: e.target.value })}
               />
             </div>
-            
-            <button 
-              type="submit" 
+
+            <Button
+              type="submit"
               disabled={isSubmittingReview}
-              className="olive-button flex items-center justify-center gap-2 px-8 py-4 disabled:opacity-50"
+              size="lg"
             >
               {isSubmittingReview ? 'Enviando...' : 'Publicar Reseña'}
-            </button>
+            </Button>
           </div>
         </form>
 
@@ -677,7 +678,7 @@ export default function CabinDetail() {
             <p className="text-ink/60 italic text-center py-8">Aún no hay reseñas para esta cabaña. ¡Sé el primero en dejar una!</p>
           ) : (
             reviews.map((review) => (
-              <div key={review.id} className="bg-white p-8 rounded-[32px] shadow-sm border border-olive/5 transition-all hover:shadow-md">
+              <Card key={review.id} className="p-8 border border-olive/5 transition-all hover:shadow-md">
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <h4 className="font-bold text-lg text-olive mb-1">{review.guestName}</h4>
@@ -687,16 +688,16 @@ export default function CabinDetail() {
                   </div>
                   <div className="flex gap-1">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <Star 
-                        key={star} 
-                        size={16} 
-                        className={star <= review.rating ? 'fill-olive text-olive' : 'text-olive/20'} 
+                      <Star
+                        key={star}
+                        size={16}
+                        className={star <= review.rating ? 'fill-olive text-olive' : 'text-olive/20'}
                       />
                     ))}
                   </div>
                 </div>
                 <p className="text-ink/70 leading-relaxed">{review.comment}</p>
-              </div>
+              </Card>
             ))
           )}
         </div>
